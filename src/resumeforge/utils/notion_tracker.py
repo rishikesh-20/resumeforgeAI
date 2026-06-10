@@ -51,18 +51,3 @@ def _track_notion(job_details: JobDetails) -> None:
         },
         children=children,
     )
-
-
-def _track_sheets(job_details: JobDetails) -> None:
-    from resumeforge.utils.google_sheets import initialize_sheets_client
-
-    client = initialize_sheets_client()
-    client.append_row([
-        job_details.date_applied,
-        job_details.company_name,
-        job_details.job_title,
-        job_details.location,
-        job_details.job_id or "",
-        job_details.job_description,
-        "Applied",
-    ])
