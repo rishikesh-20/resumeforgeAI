@@ -71,15 +71,16 @@ resume_tailoring_task:
     - Vary action verbs: Technical (Architected, Built, Optimized); Leadership (Led, Mentored); Analysis (Investigated, Analyzed)
 
     **STEP 3 - SKILLS:**
-    Filter master skills to match `skills.technical`. Organize: Programming Languages | Frameworks | Databases | Cloud Platforms | Developer Tools | Methodologies.
-    Use exact names (JavaScript not Javascript). Include `skills.bonus` if possessed.
+    Include ALL skills from the master resume — never drop any. Add job-relevant skills from `skills.technical` and `skills.bonus` if the candidate demonstrably has them (used in projects/experience).
+    Reorder categories so job-required skills appear first, remaining skills follow. Organize: Programming Languages | AI \& ML Tools | Data Libraries | Frameworks | Databases | Cloud Platforms | Developer Tools | Methodologies.
+    Use exact names (JavaScript not Javascript).
     **Implied Skills Rule:** Add ONLY if technological prerequisite (Django→Python OK; AWS→Distributed Systems NOT OK).
 
     **STEP 4 - PROJECT SELECTION & TAILORING:**
     You are given ALL available projects below under "Available Projects". Your job:
     1. SCORE each project: count how many items from `skills.technical` + `responsibilities_and_qualifications` appear in its tech_stack or description.
     2. SELECT exactly 3 projects. Rank by score descending. If there are ties or fewer than 3 with overlap, fill remaining slots with the projects that have the most recent date or use the most modern/advanced technology stack. Always output exactly 3 — never fewer.
-    3. For each selected project, output: `name` (exact), `tech_stack` (max 4 technologies, comma-separated, most relevant to the job — do not list every technology used), `date` (from source), and `description` as a list of EXACTLY 3 bullet point strings (30-40 words each, strictly):
+    3. For each selected project, output: `name` (exact), `tech_stack` (REQUIRED — max 4 technologies, comma-separated, most relevant to the job — never leave this blank or null), `date` (from source), and `description` as a list of EXACTLY 3 bullet point strings (30-40 words each, strictly):
        - Bullet 0: Problem/motivation — open with a strong action verb, include at least 1 keyword from `skills.technical`, describe the problem context and scale
        - Bullet 1: Solution/implementation — open with a strong action verb, include at least 2 keywords from `skills.technical`, explain the technical approach and key design decisions
        - Bullet 2: Result/impact — open with a strong action verb, ALWAYS include a specific number (%, ms, x faster, number of users, records processed, etc.). If the project description does not provide an exact metric, infer a realistic and conservative estimate based on the technology and context (e.g. "reduced query time by ~40%", "processed 10K+ records", "improved accuracy by ~15%").
@@ -87,7 +88,8 @@ resume_tailoring_task:
     5. Do NOT invent projects. Only select from the Available Projects list.
 
     **STEP 5 - EDUCATION:**
-    List up to 5 courses matching `skills.technical` or `responsibilities_and_qualifications`. Use natural phrasing: "Relevant coursework includes..."
+    Copy ALL education entries from the master resume exactly as-is — never drop, merge, or omit any degree. Do not add or fabricate entries.
+    List up to 5 courses per entry matching `skills.technical` or `responsibilities_and_qualifications`. Use natural phrasing: "Relevant coursework includes..."
 
     **STEP 6 - SELF-CHECK:**
     Verify adherence to CORE PRINCIPLES and keyword distribution targets. Confirm: no pronouns (I/me/we), consistent tense (past for previous/present for current).
