@@ -1,0 +1,6 @@
+{
+  "name": "Your Project Name",
+  "tech_stack": "Python, FastAPI, PostgreSQL, Docker",
+  "date": "December 2024",
+  "description": "Write a detailed paragraph here describing what you built and why. Include: the problem you were solving, the technical approach you took, any interesting design decisions, scale or scope (how many users, records, requests), and any results or metrics you observed. The more detail you provide, the better the AI can tailor the bullet points to each job description. Aim for 3-5 sentences covering problem, solution, and outcome."
+}

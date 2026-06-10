@@ -1,0 +1,41 @@
+{
+  "header": {
+    "name": "Your Full Name",
+    "phone": "123-456-7890",
+    "email": "you@example.com",
+    "location": "City, State, Country",
+    "links": [
+      { "platform": "LinkedIn", "url": "https://linkedin.com/in/yourprofile/" },
+      { "platform": "GitHub", "url": "https://github.com/yourusername" }
+    ]
+  },
+  "work_experience": [
+    {
+      "title": "Software Engineer Intern",
+      "company": "Acme Corp",
+      "startDate": "June 2024",
+      "endDate": "August 2024",
+      "location": "San Francisco, CA",
+      "responsibilities": [
+        "Built X using Y, resulting in Z.",
+        "Designed and deployed A to reduce B by C%.",
+        "Collaborated with team of N to deliver feature by deadline."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Science in Computer Science",
+      "institution": "State University",
+      "startDate": "August 2021",
+      "endDate": "May 2025",
+      "location": "City, State",
+      "coursework": []
+    }
+  ],
+  "skills": [
+    { "category": "Languages", "items": ["Python", "JavaScript", "SQL"] },
+    { "category": "Frameworks", "items": ["React", "FastAPI"] },
+    { "category": "Developer Tools", "items": ["Git", "Docker", "AWS"] }
+  ]
+}

@@ -1,0 +1,160 @@
+job_analysis_task:
+  description: >
+    Analyze the job description and extract all skills, requirements, and company signals for ATS optimization.
+
+    **Extract and categorize:**
+
+    Skills - Separate into technical (programming languages, tools, platforms, certifications), soft (communication, problem-solving),
+    management (leadership, stakeholder management, strategic planning), and bonus/nice-to-have qualifications.
+    Use exact terminology including abbreviations and version numbers.
+
+    Responsibilities & Qualifications - Extract complete phrases covering duties, requirements, and qualifications.
+    Strip buzzwords like "rockstar," "synergy," "disruptive" but preserve core meaning and industry-specific terminology.
+    Include quantifiable requirements (years of experience, education). Flag repeated or emphasized phrases as high priority.
+
+    Company Signals - Identify tone/priorities (fast-paced, collaborative, data-driven, innovative) and cultural values
+    (diversity, growth mindset, work-life balance, mission alignment). Exclude generic marketing language.
+
+    **Quality standards:**
+    - Comprehensive: capture every substantive skill and requirement
+    - Precise: use exact terminology from job description
+    - Deduplicated: each item appears once across all categories
+    - Actionable: focus on concrete, verifiable qualifications over vague attributes
+        
+        
+    Job Description:
+    ```
+    {job_description}
+    ```
+
+  expected_output: >
+    Complete JobAnalysis object with categorized extraction. No preamble or explanatory text.
+
+resume_tailoring_task:
+  description: >
+    Transform master resume into ATS-optimized document that authentically matches target role using JobAnalysis report.
+
+    **PAGE BUDGET (one page — non-negotiable):**
+    - Most recent role: 4 bullets, 30-40 words each
+    - Older roles: 2 bullets, 30-40 words each
+    - Projects: exactly 3, 3 bullets each, 30-40 words each
+    - Skills: keep only categories relevant to the job
+    - Education: no coursework unless space allows
+    Staying within these limits is your top priority. A resume that fits one page beats a resume with more detail.
+
+    **INPUT VALIDATION:**
+    - Verify JobAnalysis contains: skills (technical/soft/management/bonus), responsibilities_and_qualifications, tone_and_priorities
+    - Confirm master resume has: work experience (titles/dates/bullets), skills, education
+    - Calculate skill overlap and use it to prioritize keyword placement — always produce a full resume regardless of overlap percentage.
+
+    **CORE PRINCIPLES (Apply to ALL steps):**
+    1. **AUTHENTICITY** - Never fabricate skills/experience not in master resume. Never change seniority level (Junior→Senior) or core function (Analyst→Scientist).
+    2. **KEYWORD OPTIMIZATION** - Target 50-70% coverage from JobAnalysis. Prioritize keyword placement: Recent Role > Projects > Earlier Roles. Max 3 uses per keyword.
+    3. **NATURAL LANGUAGE** - Vary sentence structures. Avoid AI patterns: "leveraged/spearheaded" (unless tied to specific metrics), "synergy", robotic repetition.
+    4. **DEMONSTRATION** - Show soft/management skills through examples, NEVER list them. Technical skills only in Skills section.
+    5. **RECENCY** - Focus 70% content on last 5 years of experience. Condense older roles to 2-3 bullets max.
+
+    **STEP 1 - KEYWORD ANALYSIS & MAPPING:**
+    Extract from JobAnalysis: `skills.technical` (Skills section), `skills.soft` (demonstrate in bullets), `skills.management` (show through leadership examples),
+    `skills.bonus` (differentiators if possessed), `responsibilities_and_qualifications` (repeated phrases = highest priority). Map authentic master resume experiences to requirements.
+
+    **STEP 2 - WORK EXPERIENCE:**
+
+    **Title Handling:** Align most recent title ONLY if functionally identical (Developer<-->Engineer OK, Analyst<-->Scientist NOT OK). When unclear, keep original and emphasize relevant duties in bullets.
+
+    **Bullets (4 max for recent roles, 2 max for older roles — PAGE BUDGET):**
+    - **Review ALL master resume bullets** for each role. Select most relevant content—combine related achievements to preserve impactful details without losing key information.
+    - STAR format: Action verb + context + method + result (30-40 words per bullet, strictly). Open every bullet with a strong past-tense action verb (Engineered, Architected, Automated, Streamlined, Developed, Designed, Implemented, Optimized, Deployed, Analyzed).
+    - **Every bullet MUST include at least 1 keyword** from `skills.technical` or `responsibilities_and_qualifications` where authentically applicable.
+    - **Every bullet must include a specific number** — use %, K/M, ms, records, users, or similar. If the master resume does not provide an exact metric, infer a realistic conservative estimate based on context (e.g. "~30% reduction", "500+ records", "3x faster").
+    - Examples: Collaboration = "Partnered with X team of N..."; Mentorship = "Mentored N engineers, improving Y by Z%"; Leadership = "Led initiative resulting in..."
+    - Vary action verbs: Technical (Architected, Built, Optimized); Leadership (Led, Mentored); Analysis (Investigated, Analyzed)
+
+    **STEP 3 - SKILLS:**
+    Filter master skills to match `skills.technical`. Organize: Programming Languages | Frameworks | Databases | Cloud Platforms | Developer Tools | Methodologies.
+    Use exact names (JavaScript not Javascript). Include `skills.bonus` if possessed.
+    **Implied Skills Rule:** Add ONLY if technological prerequisite (Django→Python OK; AWS→Distributed Systems NOT OK).
+
+    **STEP 4 - PROJECT SELECTION & TAILORING:**
+    You are given ALL available projects below under "Available Projects". Your job:
+    1. SCORE each project: count how many items from `skills.technical` + `responsibilities_and_qualifications` appear in its tech_stack or description.
+    2. SELECT exactly 3 projects. Rank by score descending. If there are ties or fewer than 3 with overlap, fill remaining slots with the projects that have the most recent date or use the most modern/advanced technology stack. Always output exactly 3 — never fewer.
+    3. For each selected project, output: `name` (exact), `tech_stack` (max 4 technologies, comma-separated, most relevant to the job — do not list every technology used), `date` (from source), and `description` as a list of EXACTLY 3 bullet point strings (30-40 words each, strictly):
+       - Bullet 0: Problem/motivation — open with a strong action verb, include at least 1 keyword from `skills.technical`, describe the problem context and scale
+       - Bullet 1: Solution/implementation — open with a strong action verb, include at least 2 keywords from `skills.technical`, explain the technical approach and key design decisions
+       - Bullet 2: Result/impact — open with a strong action verb, ALWAYS include a specific number (%, ms, x faster, number of users, records processed, etc.). If the project description does not provide an exact metric, infer a realistic and conservative estimate based on the technology and context (e.g. "reduced query time by ~40%", "processed 10K+ records", "improved accuracy by ~15%").
+    4. Output projects in descending relevance order (most relevant first).
+    5. Do NOT invent projects. Only select from the Available Projects list.
+
+    **STEP 5 - EDUCATION:**
+    List up to 5 courses matching `skills.technical` or `responsibilities_and_qualifications`. Use natural phrasing: "Relevant coursework includes..."
+
+    **STEP 6 - SELF-CHECK:**
+    Verify adherence to CORE PRINCIPLES and keyword distribution targets. Confirm: no pronouns (I/me/we), consistent tense (past for previous/present for current).
+
+    **Master Resume:**
+    ```
+    {master_resume}
+    ```
+
+    **Available Projects:**
+    ```
+    {all_projects}
+    ```
+
+  expected_output: >
+    Single JSON object adhering to `ResumeContent` Pydantic model. NO preamble, explanations, or markdown formatting—JSON only.
+
+resume_validation_task:
+  description: >
+    Validate the tailored resume against the job analysis to ensure quality, keyword integration,
+    and readiness for document generation. Use the context from previous tasks (job analysis and
+    tailored resume) to perform comprehensive analysis and provide actionable feedback.
+
+    **Validation Criteria:**
+
+    **1. Keyword Integration Analysis:**
+    - Count total keywords from job analysis (technical skills, soft skills, management skills, and key terms)
+    - Identify which keywords appear in the resume
+    - Calculate integration rate (percentage of keywords included)
+    - Classify keywords as naturally integrated vs. forced/awkwardly placed
+    - Identify missing critical keywords that should be added
+    - Check for keyword stuffing (same keyword repeated excessively)
+
+    **2. Phrase Usage Analysis:**
+    - Verify that responsibilities and qualifications from job analysis are reflected in resume
+    - Check if industry-specific terminology is used correctly and in proper context
+    - Identify phrases that sound unnatural or AI-generated ("leveraged," "spearheaded," "synergy")
+    - Note important phrases from job description that should be incorporated
+
+    **3. ATS Compatibility Check:**
+    - Evaluate keyword density and distribution across resume sections
+    - Verify technical skills are explicitly stated (not just implied)
+    - Check if quantifiable achievements are present
+    - Assess overall structure and formatting compatibility
+    - Score from 0-100 based on ATS optimization
+
+    **4. Human Readability Assessment:**
+    - Evaluate natural language flow and sentence variety
+    - Identify robotic patterns or AI-generated phrases
+    - Check for authentic voice and third-person consistency
+    - Assess if experience sounds genuine vs. fabricated
+    - Score from 0-100 based on human readability
+
+    **5. Quality Feedback:**
+    - List 3-5 specific strengths of the resume
+    - List 3-5 weaknesses or areas for improvement
+    - Provide 3-5 actionable suggestions for enhancement
+    - Calculate overall score (weighted: 40% keyword integration, 30% ATS score, 30% readability)
+
+    **6. Pass/Fail Determination:**
+    - Resume passes if: overall score >= 75, ATS score >= 70, readability score >= 70, integration rate >= 60%
+    - Resume is ready for generation if: passed_validation = True AND no critical keywords missing
+
+    **Note:** Do NOT use the document generation tool. The validation report will be used by the main
+    workflow to generate the document. Focus only on validation and providing the comprehensive report.
+
+  expected_output: >
+    A comprehensive ResumeValidationReport JSON object that includes all analysis, scores, feedback,
+    and pass/fail determination based on the job analysis and tailored resume from previous tasks.
+    Do not include any preamble or extra text outside of the JSON object.
