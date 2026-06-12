@@ -121,6 +121,16 @@ Add as many projects as you have. For each run, the AI scores all projects again
 
 ## Usage
 
+### Web app (Streamlit)
+
+```bash
+uv run streamlit run app.py
+```
+
+Fill in the company, job title, location, optional job ID, and paste the job description. The app shows pipeline progress, the validation report, and a preview of the generated LaTeX, with a button to download the `.tex` file. The file is also saved to `resumestex/` and the application is logged to Notion, same as the CLI.
+
+### CLI
+
 ```bash
 uv run resumeforge
 ```
